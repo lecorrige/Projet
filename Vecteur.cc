@@ -3,80 +3,101 @@
 #include <string>
 #include "Vecteur.h"
 #include <cmath>
+#include <ostream>
 using namespace std;
 
 
 const string erreur_dim("Les vecteurs ne sont pas de même dimension.");
 const string erreur_dim3("Les vecteurs ne sont pas de dimension 3.");
+const double precision(1e-10);
 
-Vecteur::Vecteur(Vector v): vecteur(v) {}
+Vecteur ::Vecteur (unsigned int n)
+: vecteur(n)
+{}
 
-Vector Vecteur::get_vecteur() const {return vecteur;}
-
-bool Vecteur::compare(Vecteur const& v, double precision) const {
-		if (v.get_vecteur().size() != vecteur.size()) {return false;}
-		else {
-			for (size_t i(0); i<vecteur.size(); ++i) {
-				if (v.get_vecteur()[i]-vecteur[i] >= precision) {return false;}
-			}
-		}
-		return true;
-	}
+Vecteur ::Vecteur (double x, double y, double z) 
+{
+	vecteur.push_back(x);
+	vecteur.push_back(y);
+	vecteur.push_back(z);
+}
 	
-void Vecteur::affiche() const {
-	for (auto el : vecteur) {cout << el << " ";} 
+Vecteur ::Vecteur (std::initializer_list<double> const& liste) {
+	for (auto el : liste) { vecteur.push_back(el); }	
 }
 
 bool Vecteur::same_size(Vecteur const& v) const {
 	return (v.get_vecteur().size() == vecteur.size());
 }
 
-size_t Vecteur::min_size(Vecteur const& v) const {    //pas utile
-	if (vecteur.size()<v.get_vecteur().size()) {return vecteur.size();}
-	else { return v.get_vecteur().size();}
+bool operator==(Vecteur const& v1, Vecteur const& v2) {
+	 if (not v1.same_size(v2)) {return false;}
+     else {
+		Vecteur test(v1-v2);
+		for (size_t i(0); i<test.get_vecteur().size(); ++i) {
+			if (abs(test.get_vecteur()[i]) > precision) {return false;}
+		}
+	}
+	return true;  
 }
 
-size_t Vecteur::max_size(Vecteur const& v) const {     //pas utile
-	if (vecteur.size()<v.get_vecteur().size()) {return v.get_vecteur().size();}
-	else { return vecteur.size();}
+bool operator!=(Vecteur const& v1, Vecteur const& v2) {return not (v1==v2);}
+
+ostream& operator<<(ostream& sortie, Vecteur const& v) {
+	for (auto el : v.get_vecteur()) {sortie << el << " ";}
+	return sortie;
 }
 
-Vecteur operator+(Vecteur v1, Vecteur const& v2) {       //penser à attraper 
-														 //le message d'erreur       
-	if (not v1.same_size(v2)) {
+Vecteur& Vecteur::operator+=(Vecteur const& v) {                   
+	if (not this->same_size(v)) {                              
 	   throw erreur_dim;
     } else {
-		v1+=v2;
-	}	
-    return v1;
+		for (size_t i(0); i<vecteur.size(); ++i) {
+		   vecteur[i]+= v.get_vecteur()[i];
+	    }
+	}
+    return *this;
 }
 
-Vecteur operator-(Vecteur const& v) {
-	return -1*v;
+Vecteur operator+(Vecteur v1, Vecteur const& v2) {
+	return v1+=v2;
 }
+
+Vecteur& Vecteur::operator-=(Vecteur const& v) {return *this += -v;}
+
+Vecteur operator-(Vecteur const& v) {return -1*v;}
 
 Vecteur operator-(Vecteur v1, Vecteur const& v2) {
-	v1 -= v2;
-	return v1;
+	return v1-=v2;
 }
 
-double operator*(Vecteur v1,Vecteur const& v2) {
-	return v1*=v2;
+double operator*(Vecteur const& v1, Vecteur const& v2) {  //messsage d'erreur envoyé
+	double res(0);
+	if (not v1.same_size(v2)) {
+		throw erreur_dim;
+	} else {
+	   for (size_t i(0); i<v1.get_vecteur().size(); ++i) {
+		   res+=v1.get_vecteur()[i]*v2.get_vecteur()[i];
+	   }
+    }
+	return res;
 }
 
-Vecteur Vecteur::operator*(double k) const {
-	Vecteur fin;
+Vecteur Vecteur::operator*=(double k) {
 	for (size_t i(0); i<vecteur.size(); ++i) {
-		fin.augmente(k*vecteur[i]);
+		vecteur[i] = k*vecteur[i];
 	}
-	return fin;
+	return *this;
 }
 
+Vecteur operator*(Vecteur v1, double k) {return v1*=k;}
 
-Vecteur Vecteur::operator^(Vecteur const& v) const {
+Vecteur operator*(double k, Vecteur const& v) {return v*k;}
+
+Vecteur Vecteur::operator^(Vecteur const& v) const {     //message d'erreur envoyé
 	Vecteur fin;
 	if ((vecteur.size()!=3) or (v.get_vecteur().size()!=3)){
-		throw erreur_dim3;
+		cerr << "Erreur : " << erreur_dim3 << endl;
 	} else {
 	    for (int i(0); i<3; ++i) {
 		    fin.augmente(vecteur[(i+1)%3]*v.get_vecteur()[(i+2)%3] 
@@ -94,36 +115,7 @@ double Vecteur::norme2() const {
 	return n;
 }
 
-double Vecteur::norme() const {
-	return sqrt(norme2());
-}
+double Vecteur::norme() const {return sqrt(norme2());}
 
-Vecteur operator~(Vecteur const& v) {
-	return v*1/norme();
-}
+Vecteur operator~(Vecteur const& v) {return v*(1/v.norme());}
 
-
-
-Vecteur Vecteur::operator+=(Vecteur const& v) const {       //penser à attraper 
-													  //le message d'erreur       
-	for (size_t i(0); i<vecteur.size(); ++i) {
-		vecteur[i]+=v.get_vecteur()[i];
-	}
-    return vecteur;
-}
-
-Vecteur Vecteur::operator-=(Vecteur const& v) const {
-	return vecteur += -v;
-}
-
-double Vecteur::operator*=(Vecteur const& v) const {
-	double res;
-	if (not same_size(v)) {
-		throw erreur_dim;
-	} else {
-	   for (size_t i(0); i<min_size(v); ++i) {
-		   res+=vecteur[i]*v.get_vecteur()[i];
-	   }
-    }
-	return res;
-}
