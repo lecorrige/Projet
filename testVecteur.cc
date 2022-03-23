@@ -3,120 +3,77 @@
 #include "Vecteur.h"
 using namespace std;
 
-void Vecteur::test_add(Vecteur const& v) const {
-	Vecteur u(addition(v));
-	cout << "( ";
-	affiche();
-	cout << ") + ( ";
-	v.affiche();
-	cout << ") = ( ";
-	u.affiche();
-	cout << ")" << endl;
+void test(Vecteur v1, Vecteur v2, Vecteur v3, char c) {         //fonction pour tester l'addition et la soustraction.
+	cout << "(" << v1 << ") " << c << " (" << v2 << ") = (";
+	cout << v3 << ")" << endl;
 }
 
 int main () {
-	Vecteur substract;
-	Vecteur opp;
-	Vecteur scal;
-	Vecteur vec;
-	double k;
-	/* Cette partie
-	* (1) pourrait être écrite autrement, par exemple avec des
-	* manipulateurs (set_coord()) ;
-	* (2) sera revue dans 2 semaines (constructeurs, surcharge des opérateurs).
-	*/
-	// v1 = (1.0, 2.0, -0.1)
-	Vecteur vect1({1.0, 0.0, -0.1});
+  try {
+	Vecteur vect1(1.0, 0.0, -0.1);
 	vect1.set_coord(1, 2.0); // pour tester set_coord()
 	
-	// v2 = (2.6, 3.5, 4.1)
-	Vecteur vect2({2.6, 3.5, 4.1});
+	Vecteur vect2(2.6, 3.5, 4.1);
 	
 	Vecteur vect3(vect1);
+	Vecteur vect4(4);
 	
-	cout << "Vecteur 1 : ";
-	vect1.affiche();
-	cout << endl;
-	
-	cout << "Vecteur 2 : ";
-	vect2.affiche();
-	cout << endl;
+	cout << "Vecteur 1 : " << vect1 << endl;
+	cout << "Vecteur 2 : " << vect2 << endl;
+	cout << "Vecteur 3 : " << vect3 << endl;
+	cout << "Vecteur 4 : " << vect4 << endl;
 	
 	cout << "Le vecteur 1 est ";
-	if (vect1.compare(vect2)) {
+	if (vect1 == vect2) {
 		cout << "égal au";
 	} else {
 		cout << "différent du";
 	}
 	cout << " vecteur 2," << endl << "et est ";
-	if (not vect1.compare(vect3)) {
+	if (vect1 != vect3) {
 		cout << "différent du";
 	} else {
 		cout << "égal au";
 	}
 	cout << " vecteur 3." << endl;
 	
-	Vecteur add({3.6, 5.5, 4.0});
-	vect1.test_add(vect2);
+	Vecteur v_test(vect1+vect2);
+	test(vect1, vect2, v_test, '+'); 
+	v_test = vect2+vect1;
+	test(vect2, vect1, v_test, '+');
 	
-	Vecteur nul({0, 0, 0});
-	vect1.test_add(nul);  
+	Vecteur v_nul(3);
+	v_test = vect1 + v_nul;
+	test(vect1, v_nul, v_test, '+');
+	v_test = v_nul + vect1;
+	test(v_nul, vect1, v_test, '+');
+	v_test = vect1 - vect2;
+	test(vect1, vect2, v_test, '-');
+	v_test = vect2 - vect2;
+	test(vect2, vect2, v_test, '-');
 	
-	vect3=vect1.addition(nul);
-	if (vect1.compare(vect3)) {
-		cout<<"l'addition avec 0 fonctionne"<<endl;
-	}
-	else{ cout<<"pb add 0"<<endl; }
+	Vecteur v_2({1, 2});
+	/*v_test = vect2 + v_2;
+	test(vect2, v_2, v_test,'+');
+	v_test = v_2 + vect2;
+	test(v_2, vect2, v_test, '+');*/
 	
-	substract.augmente(-1.6); substract.augmente(-1.5); substract.augmente(-4.2); 
-	
-	vect3=vect1.soustraction(vect2);
-	if (substract.compare(vect3)) {
-		cout<<"la soustraction fonctionne"<<endl;
-	}
-	else{ cout<<"pb substract"<<endl; }
-	vect1.affiche();
-	vect3.affiche();
-	substract.affiche();
-	
-	opp.augmente(-1.0); opp.augmente(-2.0); opp.augmente(0.1);
-	vect3=vect1.oppose();
-	if (opp.compare(vect3)) {
-		cout<<"l'oppose fonctionne"<<endl;
-	}
-	else{ cout<<"pb opp"<<endl;
-		vect1.affiche();
-		vect3.affiche();
-		opp.affiche(); }
-	
-	scal.augmente(3.0); scal.augmente(6.0); scal.augmente(-0.3);
-	
-	vect3=vect1.mult(3);
-	if (scal.compare(vect3)) {
-		cout<<"la mult par scalaire fonctionne"<<endl;
-	}
-	else{ cout<<"pb mult scalaire"<<endl; }
-	
-	
-	k=vect1.prod_scal(vect2);
-	if (k==9.19) {
-		cout<<"le produit scalaire fonctionne"<<endl;
-	}
-	else{ cout<<"pb prod scalaire"<<endl; }
-	
-	vec.augmente(8.55); vec.augmente(-4.36); vec.augmente(-1.7);
-	vect3=vect1.prod_vect(vect2);
-	if (vec.compare(vect3)) {
-		cout<<"la mult vectoriel fonctionne"<<endl;
-	}
-	else{ cout<<"pb mult vectoriel"<<endl; }
-	
-	double n(5.01);
-	double m(vect1.norme2());
-	if (n-m<= 1e-10) {
-		cout<<"la norme fonctionne"<<endl;
-	}
-	else{ cout<<"pb norme"<<endl; }
+	cout << "- (" << vect1 << ") = (" << -vect1 << ")" << endl;
+	cout << "- (" << vect2 << ") + (" << vect1 << ") = (" << -vect2 + vect1 << ")" << endl;
+	cout << "3 * (" << vect1 << ") = (" << 3*vect1 << ")" << endl;
+	cout << "(" << vect1 << ") * (" << vect2 << ") = " << vect1*vect2 << endl;
+	cout << "(" << vect2 << ") * (" << vect1 << ") = " << vect2*vect1 << endl;
+	cout << "(" << vect1 << ") ^ (" << vect2 << ") = (" << (vect1 ^ vect2) << ")" << endl;
+	cout << "(" << vect1 << ") * (" << vect1 << ") = " << vect1*vect1 << endl;
+	cout << "||" << vect1 << "||² = " << vect1.norme2() << endl;
+	cout << "||" << vect1 << "|| = " << vect1.norme() << endl;
+	cout << "||" << vect2 << "||² = " << vect2.norme2() << endl;
+	cout << "||" << vect2 << "|| = " << vect2.norme() << endl;
+	cout << "Vecteur unitaire de vect1 = (" << ~vect1 << ")" << endl;
+ }
+ catch (string const& erreur) {
+   	cerr << "Erreur : " << erreur << endl;
+ }
 	
 	return 0;
 }
