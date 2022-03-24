@@ -1,5 +1,4 @@
-#include "Vecteur.h"
-#include "ChampForces.h"
+ #include "Vecteur.h"
 using namespace std;
 
 extern const double precision(1e-10);
