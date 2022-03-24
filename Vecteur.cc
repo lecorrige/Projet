@@ -2,14 +2,11 @@
 #include <vector>
 #include <string>
 #include "Vecteur.h"
+#include "constantes.h"
 #include <cmath>
 #include <ostream>
 using namespace std;
 
-
-const string erreur_dim("Les vecteurs ne sont pas de même dimension.");
-const string erreur_dim3("Les vecteurs ne sont pas de dimension 3.");
-const double precision(1e-10);
 
 Vecteur ::Vecteur (unsigned int n)
 : vecteur(n)
@@ -118,4 +115,3 @@ double Vecteur::norme2() const {
 double Vecteur::norme() const {return sqrt(norme2());}
 
 Vecteur operator~(Vecteur const& v) {return v*(1/v.norme());}
-
