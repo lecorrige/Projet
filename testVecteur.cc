@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "Vecteur.h"
+#include "constantes.h"
 using namespace std;
 
 void test(Vecteur v1, Vecteur v2, Vecteur v3, char c) {         //fonction pour tester l'addition et la soustraction.
@@ -54,9 +55,9 @@ int main () {
 	
 	Vecteur v_2({1, 2});
 	/*v_test = vect2 + v_2;
-	test(vect2, v_2, v_test,'+');
+	test(vect2, v_2, v_test,'+');*/
 	v_test = v_2 + vect2;
-	test(v_2, vect2, v_test, '+');*/
+	test(v_2, vect2, v_test, '+');
 	
 	cout << "- (" << vect1 << ") = (" << -vect1 << ")" << endl;
 	cout << "- (" << vect2 << ") + (" << vect1 << ") = (" << -vect2 + vect1 << ")" << endl;
