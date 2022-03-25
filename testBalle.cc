@@ -1,4 +1,5 @@
 #include <iostream>
+#include "ObjetMobile.h"
 #include "balle.h"
 #include "ChampForces.h"
 #include "constantes.h"
