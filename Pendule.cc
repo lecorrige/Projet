@@ -1,7 +1,10 @@
 #include <cmath>
+#include "ObjetMobile.h"
+#include "Vecteur.h"
 #include "Pendule.h"
+#include "constantes.h"
+
 using namespace std;
-#include "Constantes.h"
 
 
 Vecteur Pendule::evolution() const { 
