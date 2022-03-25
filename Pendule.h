@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ObjetMobile.h"
 #include "Vecteur.h"
 
