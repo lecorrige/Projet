@@ -1,3 +1,6 @@
+#include "Obstacle.h"
+#include "Vecteur.h"
+#include "ObjetMobile.h"
 
 class Plan : public Obstacle
 {
