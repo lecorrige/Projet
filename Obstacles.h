@@ -13,6 +13,6 @@ public:
 	 
 	 void agit_sur(ObjetMobile obj) const;
 	 
-	 Vecteur point_plus_proche(const ObjetMobile& obj) const;
+	 virtual Vecteur point_plus_proche(const ObjetMobile& obj)=0 const;
 
 };
