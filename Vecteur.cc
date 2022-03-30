@@ -46,7 +46,7 @@ ostream& operator<<(ostream& sortie, Vecteur const& v) {
 }
 
 Vecteur& Vecteur::operator+=(Vecteur const& v) {                   
-	if (not this->same_size(v)) {                              
+	if (not same_size(v)) {                              
 	   throw erreur_dim;
     } else {
 		for (size_t i(0); i<vecteur.size(); ++i) {
@@ -115,3 +115,5 @@ double Vecteur::norme2() const {
 double Vecteur::norme() const {return sqrt(norme2());}
 
 Vecteur operator~(Vecteur const& v) {return v*(1/v.norme());}
+
+
