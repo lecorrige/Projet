@@ -10,43 +10,40 @@ double ObjetMobile::masse() const {
 	return (m_vol*pow(R, 3)*K);
 }
 
-Vecteur ObjetMobile::evolution() const {
-	return {0, 0, 0};
-}
-
-void ObjetMobile::agit_sur(ObjetMobile obj){
-	Vecteur force((obj.masse()-4*M_PI*rho_air*pow(obj.get_rayon(), 3))*g);
-	obj.set_f(force);
+/*void ObjetMobile::agit_sur(ObjetMobile& obj){
+	//plus tard
 }
 
 double ObjetMobile::distance(const ObjetMobile& obj) const {
-	Vecteur d(obj.get_pos()-pos);
-	return d.norme();
-}
+	//plus tard polymorphysme
+}*/
 
-ObjetMobile::ObjetMobile (double R, double m_vol, Vecteur pos, Vecteur vit, Vecteur P, Vecteur dP, Vecteur F)
-:P(P), dP(dP), pos(pos), vit(vit), R(R), m_vol(m_vol), F(F)
-{
-		if (P.get_vecteur().size()!=dP.get_vecteur().size()){
-			throw erreur_dim; //a recuperer
-		}
-}
+ObjetMobile::ObjetMobile (double R, double m_vol, Vecteur P, Vecteur dP, double b) 
+:R(R), m_vol(m_vol), b(b), P(P), dP(dP), F(3)
+{ test_size();}
 
-ObjetMobile::ObjetMobile ( double R, double m_vol, int deg)
-:P(deg), dP(deg), pos(deg), vit(deg), R(R), m_vol(m_vol), F(deg)
+ObjetMobile::ObjetMobile (Vecteur P, Vecteur dP)
+:R(0), m_vol(0), b(0), P(P), dP(dP), F(3)
+{test_size();}	
+	
+ObjetMobile::ObjetMobile (double R, double m_vol, double b, int deg)
+:R(R), m_vol(m_vol), b(b), P(deg), dP(deg), F(3)
 {}
 
-ostream& operator<<(ostream& sortie, ObjetMobile const& obj) {
-	sortie<<"Nous avons : "<<endl;
-	sortie<<"un champs de force : "<<endl;
-	sortie << obj.get_force() << " # intensite" << endl;
+ostream& operator<<(ostream& sortie, ObjetMobile const& obj) {  //voir surcharge affichage
 	sortie << obj.masse() << " # masse" << endl;
 	sortie << obj.get_rayon() << " # rayon" << endl;
 	sortie << obj.get_masseVol() << " # masse volumique" << endl;
-	sortie << obj.get_pos() << " # position" << endl;
-	sortie << obj.get_vit() << " # vitesse" << endl;
-	sortie << obj.get_P() <<" # P"<<endl;
-	sortie << obj.get_dP() <<" # dP"<<endl;
-	sortie << obj.evolution() <<" # f()"<<endl;
+	sortie << obj.get_force() << " # force" << endl;
 	return sortie;
+}
+
+void ObjetMobile::test_masse() const {
+	if (masse() <= 0) {throw erreur_masse;}
+}
+
+void ObjetMobile::test_size() const {
+	if (P.get_vecteur().size() != dP.get_vecteur().size()) {
+		throw erreur_dim;
+	}
 }
