@@ -3,16 +3,19 @@
 #include <iostream>
 #include "Vecteur.h"
 #include "ObjetMobile.h"
+#include "constantes.h"
 
 class Balle : public ObjetMobile {
 public:
 	using ObjetMobile::ObjetMobile;     //attention si nouveaux attributs
-	Vecteur get_pos() const { return pos; }  
-	Vecteur get_vit() const { return vit; }
 	
-	void set_pos(Vecteur p) { pos=p; }
-	void set_vit(Vecteur v) { vit=v; }
+	Vecteur evolution() const;
+	
+	Vecteur get_pos() const { return P; }  
+	Vecteur get_vit() const { return dP; }
+	/*void set_pos(Vecteur const& p) { P=p; }
+	void set_vit(Vecteur const& v) { dP=v; }*/   // pas utile
 
 };
 
-//rajouter operateur affichage
+std::ostream& operator<<(std::ostream& sortie, Balle const& obj);
