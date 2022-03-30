@@ -6,26 +6,21 @@
 class Pendule : public ObjetMobile
 {
 private:
-	double L;
-	double frottement;
-	Vecteur d;
-	Vecteur pos_bout;
+	const double L;    //longueur du pendule
+	const Vecteur O;   //origine du pendule
+	Vecteur d;         //direction du pendule
 
 public:
+    Pendule (double R, double m_vol, double L, double b, Vecteur P, Vecteur dP, 
+             Vecteur d, Vecteur O=(3));
+    Pendule (double R=0, double m_vol=0, double L=0, double b=0, int deg=1); 
+
 	Vecteur evolution() const; 
-	
-	Pendule (double R, double m_vol, Vecteur P, Vecteur dP, Vecteur pos, Vecteur vit, Vecteur F,
-			 double L, double frott, Vecteur d, Vecteur pos_bout);
-	
-	std::ostream& affiche(std::ostream& sortie,  Pendule const& p);
-	
 	double get_L() const { return L; }
-	
-	double get_fr() const { return frottement; }
-	
-	Vecteur get_d() const { return d; }
-	
-	Vecteur get_pos_bout() const { return pos_bout; }
+	Vecteur get_O() const {return O;}
+	Vecteur get_d() const {return d;}
+	Vecteur pos_masse() const;    //calcule la position du bout du pendule
+	Vecteur vit_masse() const;    //calcule la vitesse du bout du pendule
 };
 
-std::ostream& operator<<(std::ostream& sortie,  Pendule const& p);
+std::ostream& operator<<(std::ostream& sortie, Pendule const& p);
