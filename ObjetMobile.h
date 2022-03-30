@@ -1,40 +1,43 @@
 #pragma once
 
 #include "Vecteur.h"
+#include "constantes.h"
 
 
-
-class ObjetMobile
-{
+class ObjetMobile {
 protected:
-	Vecteur P;
-	Vecteur dP;
-	Vecteur pos;
-    Vecteur vit;
     double R;
     double m_vol;
+    double b;       //frottement (viscosité de l'air et/ou frottement fluide)
+    Vecteur P;
+	Vecteur dP;
     Vecteur F;
+    
+    void test_masse() const;
 	
 	
 public:
-    ObjetMobile (double R, double m, Vecteur pos, Vecteur vit, 
-                 Vecteur P={0}, Vecteur dP={0}, Vecteur F={0, 0, 0});
-	ObjetMobile (double R=0, double m_vol=0, int deg=3); 
+    ObjetMobile (double R, double m_vol, Vecteur P, Vecteur dP, double b=0);
+    ObjetMobile (Vecteur P, Vecteur dP);
+	ObjetMobile (double R=0, double m_vol=0, double b=0, int deg=3); 
 	             
     double masse() const;
     void ajoute_force(Vecteur const& df) {F+=df;};
-	Vecteur evolution() const;
-	void agit_sur(ObjetMobile obj);
+	virtual Vecteur evolution() const =0;
+	void agit_sur(ObjetMobile& obj);
 	double distance(const ObjetMobile& obj) const;
+	void test_size() const;       //pour tester si P et dP sont bien de la meme taille 
 	
     double get_rayon() const {return R;}     // accesseurs
     double get_masseVol() const {return m_vol;}
-    Vecteur get_pos() const {return pos;}
-    Vecteur get_vit() const {return vit;}
+    double get_b() const {return b;}
     Vecteur get_force() const {return F;}
     Vecteur get_P() const {return P;}
     Vecteur get_dP() const {return dP;}
-    void set_f(Vecteur force) {F+=force;}
+    Vecteur get_F() const {return F;}
+    void set_P(Vecteur const& p) {P=p;}
+    void set_dP(Vecteur const& dp) {dP=dp;} 
+    void set_F(Vecteur const& f) {F=f;}
 };
 
 std::ostream& operator<<(std::ostream& sortie,  ObjetMobile const& obj) ;
