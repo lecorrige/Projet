@@ -1,21 +1,27 @@
 #include <iostream>
+#include <vector>
+#include <cmath>
+#include <ostream>
+#include "Vecteur.h"
 #include "balle.h"
-#include "ObjetMobile.h"
-#include "constantes.h"
 using namespace std;
 
 
-ostream& operator<<(ostream& sortie, Balle const& balle) {
-	const ObjetMobile& o(balle);
-	cout << "une balle : " << endl;
-	sortie << o;
-	sortie << balle.get_P() << " # parametre" << endl;
-	sortie << balle.get_dP() << " # vitesse" << endl;
-	sortie << balle.evolution() << " # f()" << endl;
-	return sortie;
+Balle ::Balle(double r, double rho, 
+              std::initializer_list<double> const& pos, 
+              std::initializer_list<double> const& vit, 
+              std::initializer_list<double> const& force) 
+: rayon(r), masseVol(rho), pos(pos), vit(vit), force(force)
+{}
+
+double Balle::masse() const {
+	const double k((M_PI*4)/3);
+	return (masseVol*pow(rayon, 3)*k);
 }
 
-Vecteur Balle::evolution() const {
-	test_masse();         //on teste si masse pas valable
-	return F*(1/masse());
+ostream& Balle::affiche(ostream& sortie) {
+	ObjetMobile::affiche(sortie);
+	sortie << get_pos() << " # position" << endl;
+	sortie << get_vit() << " # vitesse" << endl;
+	return sortie;
 }
