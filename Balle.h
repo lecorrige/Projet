@@ -17,6 +17,7 @@ public:
 	void set_vit(Vecteur const& v) { dP=v; }*/   // pas utile
 	virtual Vecteur pos() const override { return get_pos(); }
 	virtual Vecteur vit() const override { return get_vit(); }
+	virtual void ajoute_vit(Vecteur v) const override {dP+=v}	
 	virtual ostream& affiche(ostream& sortie) const override;
 };
 
