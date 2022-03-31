@@ -24,6 +24,7 @@ public:
 	
 	virtual Vecteur pos() const override {return pos_masse();}  
 	virtual Vecteur vit() const override {return vit_masse();}
+	virtual void ajoute_vit(Vecteur v) const override {dP+=v/L}	
 	virtual ostream& affiche(ostream& sortie) const override;
 };
 
