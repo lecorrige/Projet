@@ -21,6 +21,8 @@ public:
 	Vecteur get_d() const {return d;}
 	Vecteur pos_masse() const;    //calcule la position du bout du pendule
 	Vecteur vit_masse() const;    //calcule la vitesse du bout du pendule
+	
+	virtual Vecteur pos() const override {return pos_masse();}  
+	virtual ostream& affiche(ostream& sortie) const override;
 };
 
-std::ostream& operator<<(std::ostream& sortie, Pendule const& p);
