@@ -21,19 +21,18 @@ Pendule::Pendule (double R, double m_vol, double L, double b, int deg)
 : ObjetMobile (R, m_vol, b, deg), L(L), O(3), d(3)
 {} 
 
-ostream& operator<<(ostream& sortie, Pendule const& p){
+ostream& Pendule::affiche(ostream& sortie) const{
 	sortie<<"un pendule "<<endl;
-	sortie<<p.masse()<<" # masse pendule"<<endl;
-	sortie<<p.get_L()<<" # longueur pendule"<<endl;
-	sortie<<p.get_b()<<" # frottement pendule"<<endl;
-	sortie<<p.get_O()<<" # origine pendule" << endl;
-	sortie<<p.get_d()<<" # direction pendule"<<endl;
-	sortie<<p.get_P()<<" # theta pendule" << endl;
-	sortie<<p.get_dP()<<" # theta point pendule"<<endl;
-	sortie<<p.evolution()<<" # f() pendule" << endl;
-	sortie<<p.pos_masse()<<" # position bout pendule"<<endl;
-	sortie<<p.vit_masse()<<" # vitesse bout pendule"<<endl;
-	sortie<<p.get_F()<<" # force exercee sur le pendule"<<endl;
+	ObjetMobile::affiche(sortie);
+	sortie<<get_L()<<" # longueur pendule"<<endl;
+	sortie<<get_b()<<" # frottement pendule"<<endl;
+	sortie<<get_O()<<" # origine pendule" << endl;
+	sortie<<get_d()<<" # direction pendule"<<endl;
+	sortie<<get_P()<<" # theta pendule" << endl;
+	sortie<<get_dP()<<" # theta point pendule"<<endl;
+	sortie<<evolution()<<" # f() pendule" << endl;
+	sortie<<pos_masse()<<" # position bout pendule"<<endl;
+	sortie<<vit_masse()<<" # vitesse bout pendule"<<endl;
 	
 	return sortie; 
 }
