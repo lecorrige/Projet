@@ -23,6 +23,7 @@ public:
 	Vecteur vit_masse() const;    //calcule la vitesse du bout du pendule
 	
 	virtual Vecteur pos() const override {return pos_masse();}  
+	virtual Vecteur vit() const override {return vit_masse();}
 	virtual ostream& affiche(ostream& sortie) const override;
 };
 
