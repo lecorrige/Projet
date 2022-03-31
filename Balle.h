@@ -15,7 +15,8 @@ public:
 	Vecteur get_vit() const { return dP; }
 	/*void set_pos(Vecteur const& p) { P=p; }
 	void set_vit(Vecteur const& v) { dP=v; }*/   // pas utile
-
+	virtual Vecteur pos() const override { return get_pos(); }
+	virtual ostream& affiche(ostream& sortie) const override;
 };
 
-std::ostream& operator<<(std::ostream& sortie, Balle const& obj);
+
