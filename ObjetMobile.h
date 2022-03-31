@@ -28,6 +28,8 @@ public:
 	double distance(const ObjetMobile& obj) const;
 	void test_size() const;       //pour tester si P et dP sont bien de la meme taille 
 	
+	virtual ostream& affiche(ostream& sortie) const;
+	
     double get_rayon() const {return R;}     // accesseurs
     double get_masseVol() const {return m_vol;}
     double get_b() const {return b;}
@@ -38,6 +40,12 @@ public:
     void set_P(Vecteur const& p) {P=p;}
     void set_dP(Vecteur const& dp) {dP=dp;} 
     void set_F(Vecteur const& f) {F=f;}
+    
+    virtual Vecteur pos() const =0; //definie dans les sous-classes, renvoie pos de 
+									//chacune des sous-classes
+	virtual Vecteur vit() const =0; //definie dans les sous-classes, renvoie vit de 
+									//chacune des sous-classes		
+	virtual void ajoute_vit(Vecteur v) const =0;				
 };
 
-std::ostream& operator<<(std::ostream& sortie,  ObjetMobile const& obj) ;
+std::ostream& operator<<(std::ostream& sortie,  ObjetMobile const& obj);
