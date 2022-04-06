@@ -15,10 +15,9 @@ public:
 	Vecteur get_vit() const { return dP; }
 	/*void set_pos(Vecteur const& p) { P=p; }
 	void set_vit(Vecteur const& v) { dP=v; }*/   // pas utile
-	virtual Vecteur pos() const override { return get_pos(); }
-	virtual Vecteur vit() const override { return get_vit(); }
-	virtual void ajoute_vit(Vecteur v) const override {dP+=v}	
-	virtual ostream& affiche(ostream& sortie) const override;
+	virtual Vecteur pos() const override { return P; }
+	virtual Vecteur vit() const override { return dP; }
+	virtual void ajoute_vit(Vecteur const& v) override {dP+=v;}	
+	virtual std::ostream& affiche(std::ostream& sortie) const override;
 };
-
 
