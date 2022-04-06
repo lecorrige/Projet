@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include "Vecteur.h"
 #include "constantes.h"
 
