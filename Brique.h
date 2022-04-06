@@ -2,7 +2,6 @@
 #include "ObjetMobile.h"
 #include "Obstacles.h"
 #include <vector>
-#include <memory>
 
 class Brique : public Obstacle {
 private:
