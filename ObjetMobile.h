@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include "Vecteur.h"
 #include "constantes.h"
 
@@ -17,7 +18,7 @@ protected:
 	
 	
 public:
-    ObjetMobile (double R, double m_vol, Vecteur P, Vecteur dP, double b=0);
+    ObjetMobile (double R, double m_vol, Vecteur P, Vecteur dP=(3), double b=0);
     ObjetMobile (Vecteur P, Vecteur dP);
 	ObjetMobile (double R=0, double m_vol=0, double b=0, int deg=3); 
 	             
@@ -28,7 +29,7 @@ public:
 	double distance(const ObjetMobile& obj) const;
 	void test_size() const;       //pour tester si P et dP sont bien de la meme taille 
 	
-	virtual ostream& affiche(ostream& sortie) const;
+	virtual std::ostream& affiche(std::ostream& sortie) const;
 	
     double get_rayon() const {return R;}     // accesseurs
     double get_masseVol() const {return m_vol;}
@@ -45,7 +46,9 @@ public:
 									//chacune des sous-classes
 	virtual Vecteur vit() const =0; //definie dans les sous-classes, renvoie vit de 
 									//chacune des sous-classes		
-	virtual void ajoute_vit(Vecteur v) const =0;				
+	virtual void ajoute_vit(Vecteur const& v) =0;			
+	
+	//virtual void dessine_sur(SupportADessin& support) override;	
 };
 
 std::ostream& operator<<(std::ostream& sortie,  ObjetMobile const& obj);
