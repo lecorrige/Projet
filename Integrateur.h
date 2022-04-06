@@ -20,6 +20,6 @@ protected:
 
 class IntegrateurEulerCromer : public Integrateur {     //ne pas oublier de faire 
 public:                                                 //avancer le temps du systeme
-   IntegrateurEulerCromer (double dt);
-   void evolue(ObjetMobile& obj) const;                  //regler pb eq dif ordre 1 ou 2
+   IntegrateurEulerCromer (double dt=0);
+   virtual void evolue(ObjetMobile& obj) const override;                  //regler pb eq dif ordre 1 ou 2
 };
