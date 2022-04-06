@@ -33,6 +33,7 @@ Vecteur operator+(Vecteur v1, Vecteur const& v2);
 Vecteur operator-(Vecteur v1, Vecteur const& v2);
 double operator*(Vecteur const& v1, Vecteur const& v2);
 Vecteur operator*(Vecteur v1, double k);
+Vecteur operator/(Vecteur v1, double k);
 Vecteur operator*(double k, Vecteur const& v);
 Vecteur operator-(Vecteur const& v);
 Vecteur operator~(Vecteur const& v);
