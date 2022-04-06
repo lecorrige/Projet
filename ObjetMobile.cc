@@ -7,7 +7,7 @@
 
 using namespace std;
 
-double ObjetMobile::masse() const {
+double ObjetMobile::masse() const {   //creer fonction inverse en fonction rayon
 	return (m_vol*pow(R, 3)*K);
 }
 
@@ -18,21 +18,14 @@ void ObjetMobile::agit_sur(ObjetMobile& obj){
 	if (distance(obj)<=R+obj.get_rayon()){
 		double F1(F*n);
 		double F2(obj.get_F()*n);
-		if (F1<0){
-			ajoute_force(-F1);
-			obj.ajoute_force(F1);
-		}
-		if (F2>0){
-			ajoute_force(F2);
-			obj.ajoute_force(-F2);	
-		}
+		ajoute_force((abs(F1)+abs(F2))*n);
+		obj.ajoute_force(-(abs(F1)+abs(F2))*n);	
 		
 		double v_star((obj.vit()-vit())*n);
 		Vecteur vc(vit()-obj.vit()+v_star*n);
-		
 		Vecteur delta_v;
 		
-		if ((7*nu*(1+alpha)*v_star)>=2*vc){
+		if ((7*nu*(1+alpha)*v_star)>=2*vc.norme()){
 			delta_v=lambda*v_star*n-(2*obj.masse())/(7*(masse()+obj.masse()))*vc;
 		}
 		else {
@@ -43,37 +36,13 @@ void ObjetMobile::agit_sur(ObjetMobile& obj){
 		obj.ajoute_vit(-(masse()/obj.masse())*delta_v);
 	}
 }	
-/* A RAJOUTER DANS OBSTACLE !!!!!!
-void Obstacle::agit_sur(ObjetMobile& obj){
-	Vecteur n(~(pos()-obj.pos()));
-	double lambda(1+alpha);
-	
-	if (distance(obj)<=obj.get_rayon()){
-		double F1(F*n);
-		if (F1<0){
-			ajoute_force(-F1);
-		}
-		
-		double v_star((-obj.vit())*n);
-		Vecteur vc(obj.vit())+v_star*n);
-		
-		Vecteur delta_v;
-		
-		if ((7*nu*(1+alpha)*v_star)>=2*vc){
-			delta_v=lambda*v_star*n-2/7*vc;
-		}
-		else {
-			delta_v=lambda*v_star*(n-nu*(~vc));
-		}
-		
-		ajoute_vit(delta_v);
-	}
-}
-*/
 
 double ObjetMobile::distance(const ObjetMobile& obj) const {
-	return (pos()-obj.pos()).norme()-(R+obj.get_R());
+	return (pos()-obj.pos()).norme()-(R+obj.get_rayon());
 }
+
+//void dessine_sur(SupportADessin& support) 
+ //  {support.dessine(*this);}
 
 ObjetMobile::ObjetMobile (double R, double m_vol, Vecteur P, Vecteur dP, double b) 
 :R(R), m_vol(m_vol), b(b), P(P), dP(dP), F(3)
@@ -91,7 +60,6 @@ ostream& ObjetMobile::affiche(ostream& sortie) const{  //voir surcharge affichag
 	sortie << masse() << " # masse" << endl;
 	sortie << get_rayon() << " # rayon" << endl;
 	sortie << get_masseVol() << " # masse volumique" << endl;
-	sortie << get_force() << " # force" << endl;
 	return sortie;
 }
 
