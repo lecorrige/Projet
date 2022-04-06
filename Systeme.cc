@@ -13,8 +13,10 @@ using namespace std;
 
 
 Systeme::Systeme (vector<ObjetMobile*> const& obj,
-	              vector<Obstacle*> const& obs, ChampForces champ)
-: champ(unique_ptr<ChampForces>(new ChampForces(champ)))
+	              vector<Obstacle*> const& obs, ChampForces champ,
+	              Integrateur* integre)
+: champ(unique_ptr<ChampForces>(new ChampForces(champ))),
+  integre(integre)
 { ajouter_objets(obj);
   ajouter_objets(obs); }
 		
@@ -53,6 +55,12 @@ void Systeme::ajouter_objets (vector<ObjetMobile*> const& obj) {
 void Systeme::ajouter_objets (vector<Obstacle*> const& obs) {
 	for (auto el : obs) {
 		obstacles.push_back(unique_ptr<Obstacle>(el));
+	}
+}
+
+void Systeme::evolue(){
+	for (auto const& el : objets){
+		(*integre).evolue(*el);
 	}
 }
 
