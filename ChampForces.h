@@ -11,7 +11,7 @@ public:
 	Vecteur get_intensite() const {return intensite;}
 private:
 	Vecteur intensite;    //représente direction et intensité(norme) du champ de force
-	bool est_ce_que_poussee;   //pour savoir si l'on doit inclure la poussee d'Archimede dans la formule
+	bool poussee;   //pour savoir si l'on doit inclure la poussee d'Archimede dans la formule
 };
 
 
