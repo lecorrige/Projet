@@ -1,5 +1,4 @@
 #include <cmath>
-#include <memory>
 #include "ObjetMobile.h"
 #include "Vecteur.h"
 #include "Pendule.h"
