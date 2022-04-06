@@ -88,6 +88,7 @@ Vecteur Vecteur::operator*=(double k) {
 }
 
 Vecteur operator*(Vecteur v1, double k) {return v1*=k;}
+Vecteur operator/(Vecteur v1, double k) {return v1*(1/k);}
 
 Vecteur operator*(double k, Vecteur const& v) {return v*k;}
 
@@ -114,6 +115,6 @@ double Vecteur::norme2() const {
 
 double Vecteur::norme() const {return sqrt(norme2());}
 
-Vecteur operator~(Vecteur const& v) {return v*(1/v.norme());}
+Vecteur operator~(Vecteur const& v) {return v/v.norme();}
 
 
