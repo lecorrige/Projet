@@ -1,22 +1,23 @@
-#include "Obstacle.h"
+#include "Plan.h"
+#include "Obstacles.h"
 #include "Vecteur.h"
 #include "ObjetMobile.h"
 #include <iostream>
 using namespace std;
 
 
-Obstacle::Obstacle(Vecteur pos)
-:pos(pos)
+Plan::Plan(Vecteur pos, Vecteur n)
+:Obstacle(pos), n(n)
 {}
 
-double Obstacle::distance(const ObjetMobile& obj) const{
-	return (pos-point_plus_proche(obj)).norme()-obj.get_rayon();
-}
- 
-void Obstacle::agit_sur(ObjetMobile obj) const{
-	cout<<"plus tard"<<endl;
+Vecteur Plan::point_plus_proche(const ObjetMobile& obj) const{
+	return obj.pos()+((pos-obj.pos())*n)*n;
 }
 
-Vecteur Obstacle::point_plus_proche(const ObjetMobile& obj) const{
-	return 0;
+ostream& Plan::affiche(std::ostream& sortie) const {
+	sortie << "un mur plan" << endl;
+	sortie << pos << " # origine plan" << endl;
+	sortie << n << " # normale plan" << endl;
+	return sortie;
 }
+
