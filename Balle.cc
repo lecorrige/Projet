@@ -14,10 +14,15 @@ Vecteur Balle::evolution() const {
 ostream& Balle::affiche(ostream& sortie) const {
 	sortie << "une balle" << endl;
 	ObjetMobile::affiche(sortie);
-	sortie << get_pos() << " # position balle" << endl;
-	sortie << get_vit() << " # vitesse balle" << endl;
-	sortie << get_force() << " # force balle" << endl;
+	sortie << pos() << " # position balle" << endl;
+	sortie << vit() << " # vitesse balle" << endl;
+	sortie << get_F() << " # force balle" << endl;
 	sortie << evolution() << " # f()" << endl;
 	return sortie;
 }
+
+Balle* Balle::copie() const{
+	return new Balle(*this);
+} 
+
 
