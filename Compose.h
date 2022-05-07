@@ -1,16 +1,11 @@
-#include "Simple.h"
-#include "Dessinable.h"
-#include "Systeme.h"
-#include <vector>
-#include <memory>
+#include "Compose.h"
 
+Compose::Compose(std::vector<Objet*> obj){
+	for (auto el : obj){ objets.push_back(unique_ptr<Objet>(el)); }
+}
 
-
-class Compose : public Objet, public Dessinable {
-public:
-	Compose(std::vector<Objet*>);
-	virtual void ajoute_a(Systeme) const override;
-	
-protected:
-	std::vector<std::unique_ptr<Objet>> objets;
-};
+void Compose::ajoute_a(Systeme s) const{
+	for (auto const& el:objets){
+		el->ajoute_a(s);
+	}
+}
