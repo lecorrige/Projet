@@ -60,7 +60,6 @@ Vecteur Brique::point_plus_proche(const ObjetMobile& obj) const
 	Vecteur x6(proche_plan_fini(obj, pos-h*n, l*el, el, L*eL, eL));
 	
 	vector<Vecteur> a({x1, x2, x3, x4, x5, x6});
-	
 	return min(a, obj);
 }
 
@@ -72,3 +71,34 @@ ostream& Brique::affiche(ostream& sortie) const {
 	sortie << h << " # hauteur brique" << endl;
 	return sortie;
 }
+
+Brique* Brique::copie() const{
+	return new Brique(*this);
+}
+
+Vecteur Brique::normale(const ObjetMobile& obj) const {
+	return face_plus_proche(obj).get_n();
+}
+
+Plan Brique::face_plus_proche(const ObjetMobile& obj) const {
+	Vecteur ref(point_plus_proche(obj));
+	
+	Vecteur const eL(~L);
+	Vecteur const el(~l);
+	Vecteur const n(eL^el);
+	
+	Plan plan1(pos, n);
+	Plan plan2(pos, -el);
+	Plan plan3(pos, -eL);
+	Plan plan4(pos+L, eL);
+	Plan plan5(pos+l, el);
+	Plan plan6(pos-h*n, -n);
+	vector<Plan> a({plan2, plan3, plan4, plan5, plan6});
+	Plan min(plan1);
+	for (auto const& el : a) {
+		if ((el.point_plus_proche(obj)-ref).norme() < 
+		    (min.point_plus_proche(obj)-ref).norme()      ) {min=el;}
+	}
+	return min;
+}
+			
