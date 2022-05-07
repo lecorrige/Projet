@@ -2,13 +2,14 @@
 #include "Obstacles.h"
 #include "Vecteur.h"
 #include "ObjetMobile.h"
+#include "constantes.h"
 #include <iostream>
 using namespace std;
 
 
-Plan::Plan(Vecteur pos, Vecteur n)
-:Obstacle(pos), n(n)
-{}
+Plan::Plan(Vecteur pos, Vecteur norm)
+:Obstacle(pos)
+{n=(~norm);}
 
 Vecteur Plan::point_plus_proche(const ObjetMobile& obj) const{
 	return obj.pos()+((pos-obj.pos())*n)*n;
@@ -21,3 +22,6 @@ ostream& Plan::affiche(std::ostream& sortie) const {
 	return sortie;
 }
 
+Plan* Plan::copie() const{
+	return new Plan(*this);
+}
