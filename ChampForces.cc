@@ -13,12 +13,12 @@ ChampForces ::ChampForces(Vecteur v, bool test)
 {}
 
 ostream& operator<<(ostream& sortie, ChampForces const& f) {
-	cout << "un champ de force :" << endl;
+	cout << "un champ de force :" << endl;  //ne pas afficher à chaque fois ce message, dans les tests
 	sortie << f.get_intensite() << " # intensite" << endl;
 	return sortie;
 }
 
-void ChampForces::agit_sur(ObjetMobile& obj) const {
+void ChampForces::agit_sur(ObjetMobile& obj) {
 	double k;
 	Vecteur v(3);
 	if (obj.get_F() == v) {obj.set_F(intensite.get_vecteur().size());}
