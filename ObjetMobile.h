@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Vecteur.h"
+#include "Dessinable.h"
 #include "constantes.h"
 
 
-class ObjetMobile {
+class ObjetMobile : public Dessinable {
 protected:
     double R;
     double m_vol;
@@ -17,14 +18,13 @@ protected:
 	
 	
 public:
-    ObjetMobile (double R, double m_vol, Vecteur P, Vecteur dP=(3), double b=0);
-    ObjetMobile (Vecteur P, Vecteur dP);
+    ObjetMobile (double R, double m_vol, Vecteur P, Vecteur dP, double b=0);
 	ObjetMobile (double R=0, double m_vol=0, double b=0, int deg=3); 
 	             
     double masse() const;
-    void ajoute_force(Vecteur const& df) {F+=df;};
+    virtual void ajoute_force(Vecteur const& df) {F+=df;}
 	virtual Vecteur evolution() const =0;
-	void agit_sur(ObjetMobile& obj);
+	void agit_sur(ObjetMobile& obj, bool =false);
 	double distance(const ObjetMobile& obj) const;
 	void test_size() const;       //pour tester si P et dP sont bien de la meme taille 
 	
@@ -33,21 +33,20 @@ public:
     double get_rayon() const {return R;}     // accesseurs
     double get_masseVol() const {return m_vol;}
     double get_b() const {return b;}
-    Vecteur get_force() const {return F;}
     Vecteur get_P() const {return P;}
     Vecteur get_dP() const {return dP;}
     Vecteur get_F() const {return F;}
-    void set_P(Vecteur const& p) {P=p;}
-    void set_dP(Vecteur const& dp) {dP=dp;} 
+    void set_pos(Vecteur const& p) {P=p;}
+    void set_vit(Vecteur const& dp) {dP=dp;}
     void set_F(Vecteur const& f) {F=f;}
     
-    virtual Vecteur pos() const =0; //definie dans les sous-classes, renvoie pos de 
-									//chacune des sous-classes
-	virtual Vecteur vit() const =0; //definie dans les sous-classes, renvoie vit de 
-									//chacune des sous-classes		
-	virtual void ajoute_vit(Vecteur const& v) =0;			
-	
-	//virtual void dessine_sur(SupportADessin& support) override;	
+    virtual Vecteur pos() const {return P;} //renvoie pos de 
+									        //chacune des sous-classes
+	virtual Vecteur vit() const {return dP;} //renvoie vit de 
+									         //chacune des sous-classes		
+	virtual void ajoute_vit(Vecteur const& v) =0;
+	virtual ObjetMobile* copie() const =0;	
+	void test_choc(ObjetMobile&);	
 };
 
 std::ostream& operator<<(std::ostream& sortie,  ObjetMobile const& obj);
